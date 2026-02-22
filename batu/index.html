@@ -64,10 +64,36 @@
             week: 'Hafta',
             day: 'Gün'
           },
-          // GOOGLE CALENDAR BAĞLANTISI
-          googleCalendarApiKey: 'AIzaSyDa96JKPXKrHmrK-VQXYm0JWT1Ox-M4-dM', 
-          events: 'c6e2ed1ea9b29e5331cae3788525b02345227e0429209a275757a252bde402db@group.calendar.google.com '
-        });
+
+            // BİRDEN FAZLA VERİ KAYNAĞI BAĞLANTISI
+          eventSources: [
+            // 1. Kaynak: Google Takvim (Telefonundan gireceğin dinamik veriler)
+            {
+              googleCalendarApiKey: 'AIzaSyDa96JKPXKrHmrK-VQXYm0JWT1Ox-M4-dM', // Kendi API anahtarını tekrar buraya yaz
+              googleCalendarId: 'c6e2ed1ea9b29e5331cae3788525b02345227e0429209a275757a252bde402db@group.calendar.google.com'    // Kendi Takvim ID'ni tekrar buraya yaz
+            },
+            // 2. Kaynak: Koda gömdüğümüz sabit programlar (Okul ve BİLSEM)
+            {
+              events: [
+                {
+                  title: 'OKUL',
+                  daysOfWeek: [ 1, 2, 3, 4, 5 ], // 1=Pazartesi, 5=Cuma arası
+                  startTime: '07:00:00',
+                  endTime: '17:00:00',
+                  color: '#7f8c8d' // Göz yormayan şık bir gri renk
+                },
+                {
+                  title: 'BİLSEM',
+                  daysOfWeek: [ 6 ], // Sadece 6=Cumartesi
+                  startTime: '07:00:00',
+                  endTime: '17:00:00',
+                  color: '#8e44ad' // BİLSEM için ayırt edici soft bir mor
+                }
+              ]
+            }
+          ]
+
+       });
 
         calendar.render();
       });
