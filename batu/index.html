@@ -56,11 +56,14 @@
             padding: 5px;
         }
 
-        .fc-event-title {
-            font-size: 1.4rem !important; /* Font çok daha büyük */
-            text-align: center;
-            white-space: normal; /* Gerekirse alt satıra geçmesine izin verir */
+.fc-event-title {
+            font-size: 1.4rem !important;
             font-weight: 600;
+            text-align: center;
+            /* Yazıyı dikey hale getiren sihirli kodlar: */
+            writing-mode: vertical-rl; /* Metin yönünü yukarıdan aşağıya çevirir */
+            text-orientation: upright; /* Harfleri yan yatırmadan dik (O-K-U-L gibi) tutar */
+            letter-spacing: 4px; /* Harflerin arasına biraz boşluk ekler */
         }
 
         /* Haftanın günleri başlıklarını da renklendirelim */
