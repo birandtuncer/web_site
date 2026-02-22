@@ -4,53 +4,82 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Batu | Haftalık Program</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
+    
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar@6.1.10/index.global.min.js'></script>
+    
     <style>
         body {
             margin: 0;
             padding: 20px;
             background-color: #f4f4f9;
             font-family: 'Montserrat', sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            color: #333;
         }
         h1 {
+            text-align: center;
             color: #2c3e50;
             text-transform: uppercase;
             letter-spacing: 2px;
-            margin-top: 40px;
-            text-align: center;
+            margin-bottom: 30px;
         }
-        .calendar-container {
-            width: 100%;
-            max-width: 900px;
-            margin-top: 30px;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        #calendar-container {
+            max-width: 1200px; /* Genişlik ayarı */
+            margin: 0 auto;
             background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
-        /* Takvimin telefonda ve bilgisayarda düzgün görünmesi için */
-        .calendar-container iframe {
-            width: 100%;
-            height: 600px;
-            border: 0;
-        }
-        @media screen and (max-width: 600px) {
-            .calendar-container iframe {
-                height: 500px;
-            }
+        /* FullCalendar içindeki saat dilimi renk ayarları */
+        .fc-v-event {
+            background-color: #3498db; /* Etkinliklerin varsayılan rengi */
+            border: none;
+            border-radius: 4px;
+            padding: 2px 4px;
         }
     </style>
+    
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: 'timeGridWeek', // Haftalık saatli görünüm
+          slotMinTime: '05:00:00', // Sadece 05:00'den başla
+          slotMaxTime: '21:00:00', // 21:00'de bitir
+          allDaySlot: false, // "Tüm gün" satırını gizle
+          firstDay: 1, // Hafta Pazartesi başlasın
+          locale: 'tr', // Dil Türkçe
+          height: 'auto', // Scroll çıkmasını engeller
+          headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'timeGridWeek,timeGridDay'
+          },
+          buttonText: {
+            today: 'Bugün',
+            week: 'Hafta',
+            day: 'Gün'
+          },
+          // GOOGLE CALENDAR BAĞLANTISI
+          googleCalendarApiKey: 'AIzaSyDa96JKPXKrHmrK-VQXYm0JWT1Ox-M4-dM', 
+          events: 'c6e2ed1ea9b29e5331cae3788525b02345227e0429209a275757a252bde402db@group.calendar.google.com '
+        });
+
+        calendar.render();
+      });
+    </script>
 </head>
 <body>
 
     <h1>Batu'nun Haftalık Programı</h1>
 
-    <div class="calendar-container">
-<iframe src="https://calendar.google.com/calendar/embed?height=800&wkst=2&ctz=Europe%2FIstanbul&showPrint=0&mode=WEEK&showTitle=0&showCalendars=0&title=Batu%20Program&showTabs=0&src=YzZlMmVkMWVhOWIyOWU1MzMxY2FlMzc4ODUyNWIwMjM0NTIyN2UwNDI5MjA5YTI3NTc1N2EyNTJiZGU0MDJkYkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=dHIudHVya2lzaCNob2xpZGF5QGdyb3VwLnYuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&color=%233f51b5&color=%23e67c73" style="border-width:0" width="1000" height="800" frameborder="0" scrolling="no"></iframe>
-        </div>
+    <div id="calendar-container">
+        <div id="calendar"></div>
+    </div>
 
 </body>
 </html>
