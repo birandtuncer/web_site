@@ -11,28 +11,28 @@
     <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar@6.1.10/index.global.min.js'></script>
     
     <style>
-        /* 5. İSTEK: FullCalendar'ın standart renklerini Koyu Mavi tonlarıyla değiştiriyoruz */
+        /* Renk Teması (Koyu Lacivert / Dark Mode) */
         :root {
-            --fc-page-bg-color: #112240; /* Takvim içi lacivert arka plan */
-            --fc-neutral-text-color: #E6F1FF; /* Yazılar açık mavi/beyaz */
-            --fc-border-color: #233554; /* Çizgi renkleri */
-            --fc-button-bg-color: #1E3A8A; /* Üst butonlar */
+            --fc-page-bg-color: #112240;
+            --fc-neutral-text-color: #E6F1FF;
+            --fc-border-color: #233554;
+            --fc-button-bg-color: #1E3A8A;
             --fc-button-border-color: #1E3A8A;
             --fc-button-hover-bg-color: #2563EB;
-            --fc-today-bg-color: transparent !important; /* 3. İSTEK: Bugün sarartmasını tamamen iptal eder */
+            --fc-today-bg-color: transparent !important;
         }
 
         body {
             margin: 0;
             padding: 20px;
-            background-color: #0A192F; /* Sayfa arka planı daha da koyu lacivert */
-            font-family: 'Fredoka', sans-serif; /* Eğlenceli fontu tüm sayfaya uygular */
+            background-color: #0A192F;
+            font-family: 'Fredoka', sans-serif;
             color: #E6F1FF;
         }
 
         h1 {
             text-align: center;
-            color: #FFD700; /* Başlık için canlı bir sarı */
+            color: #FFD700;
             letter-spacing: 2px;
             margin-bottom: 30px;
             font-size: 2.5rem;
@@ -47,33 +47,96 @@
             box-shadow: 0 8px 16px rgba(0,0,0,0.4);
         }
 
-        /* 2. İSTEK: Etkinlik isimlerini tam ortalama ve fontu büyütme */
+        /* --- YAZILARI DİKEY VE TAM ORTADA HİZALAMA --- */
         .fc-event-main {
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: center; /* Dikeyde tam ortaya alır */
             height: 100%;
             padding: 5px;
         }
 
-.fc-event-title {
+        .fc-event-title {
             font-size: 1.4rem !important;
             font-weight: 600;
             text-align: center;
-            /* Yazıyı dikey hale getiren sihirli kodlar: */
-            writing-mode: vertical-rl; /* Metin yönünü yukarıdan aşağıya çevirir */
-            text-orientation: upright; /* Harfleri yan yatırmadan dik (O-K-U-L gibi) tutar */
-            letter-spacing: 4px; /* Harflerin arasına biraz boşluk ekler */
+            writing-mode: vertical-rl; /* Yukarıdan aşağıya yazdırır */
+            text-orientation: upright; /* Harfleri dik tutar */
+            letter-spacing: 4px;
         }
 
-        /* Haftanın günleri başlıklarını da renklendirelim */
         .fc-col-header-cell-cushion {
             font-size: 1.2rem;
-            color: #48CAE4; /* Gün isimleri açık tatlı bir mavi */
+            color: #48CAE4;
+        }
+
+        /* --- ŞİFRE EKRANI STİLLERİ --- */
+        #login-screen {
+            position: fixed; 
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #0A192F;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999; 
+        }
+        .login-box {
+            background-color: #112240;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+            max-width: 400px;
+            width: 90%;
+        }
+        .login-box h2 {
+            color: #FFD700;
+            margin-top: 0;
+            font-size: 2rem;
+            letter-spacing: 1px;
+        }
+        .login-box p {
+            color: #48CAE4;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+        }
+        .login-box input {
+            padding: 12px;
+            font-size: 1.5rem;
+            border-radius: 8px;
+            border: none;
+            margin-bottom: 15px;
+            text-align: center;
+            font-family: 'Fredoka', sans-serif;
+            width: 60%;
+            outline: none;
+            letter-spacing: 5px; 
+        }
+        .login-box button {
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            border-radius: 8px;
+            border: none;
+            background-color: #00B4D8;
+            color: white;
+            cursor: pointer;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 600;
+            transition: 0.3s; 
+        }
+        .login-box button:hover {
+            background-color: #0096b4;
+        }
+        #error-msg {
+            color: #ff4757;
+            display: none;
+            margin-top: 15px;
+            font-weight: 600;
         }
     </style>
     
     <script>
+      // TAKVİM AYARLARI
       document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
 
@@ -85,13 +148,12 @@
           firstDay: 1,
           locale: 'tr',
           height: 'auto',
-          
-          displayEventTime: false, // 1. İSTEK: Etkinliklerin içindeki saat yazılarını gizler
+          displayEventTime: false,
 
           headerToolbar: {
             left: 'prev,next today',
             center: 'title',
-            right: '' // 4. İSTEK: Sağ üstteki Hafta/Gün butonları buradan kaldırıldı
+            right: '' 
           },
           buttonText: {
             today: 'Bugün'
@@ -99,8 +161,9 @@
           
           eventSources: [
             {
-              googleCalendarApiKey: 'AIzaSyDa96JKPXKrHmrK-VQXYm0JWT1Ox-M4-dM', 
-              googleCalendarId: 'c6e2ed1ea9b29e5331cae3788525b02345227e0429209a275757a252bde402db@group.calendar.google.com '
+              // DİKKAT: BURAYA KENDİ BİLGİLERİNİ GİRMEYİ UNUTMA!
+              googleCalendarApiKey: 'AIzaSyDa96JKPXKrHmrK-VQXYm0JWT1Ox-M4-dM ', 
+              googleCalendarId: ' c6e2ed1ea9b29e5331cae3788525b02345227e0429209a275757a252bde402db@group.calendar.google.com '
             },
             {
               events: [
@@ -109,14 +172,14 @@
                   daysOfWeek: [ 1, 2, 3, 4, 5 ],
                   startTime: '07:00:00',
                   endTime: '17:00:00',
-                  color: '#00B4D8' // OKUL için daha canlı/eğlenceli bir açık mavi
+                  color: '#00B4D8' 
                 },
                 {
                   title: 'BİLSEM',
                   daysOfWeek: [ 6 ],
                   startTime: '07:00:00',
                   endTime: '17:00:00',
-                  color: '#9D4EDD' // BİLSEM için tatlı bir mor
+                  color: '#9D4EDD' 
                 }
               ]
             }
@@ -125,9 +188,33 @@
 
         calendar.render();
       });
+
+      // ŞİFRE KONTROL FONKSİYONU
+      function checkPin() {
+          var pin = document.getElementById('pin-input').value;
+          var dogruSifre = "2015"; // İstersen şifreyi buradan değiştirebilirsin
+
+          if (pin === dogruSifre) {
+              document.getElementById('login-screen').style.display = 'none';
+          } else {
+              document.getElementById('error-msg').style.display = 'block';
+              document.getElementById('pin-input').value = ''; 
+          }
+      }
     </script>
 </head>
 <body>
+
+    <div id="login-screen">
+        <div class="login-box">
+            <h2>Özel Alan</h2>
+            <p>Batu'nun programını görmek için PIN kodunu girin.</p>
+            <input type="password" id="pin-input" placeholder="****" onkeydown="if(event.key === 'Enter'){checkPin()}" />
+            <br>
+            <button onclick="checkPin()">Giriş</button>
+            <p id="error-msg">Hatalı şifre, tekrar dene!</p>
+        </div>
+    </div>
 
     <h1>Batu'nun Haftalık Programı</h1>
 
