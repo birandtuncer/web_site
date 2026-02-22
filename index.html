@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birand Tuncer | Coming Soon</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden; /* Kaydırma çubuklarını gizler */
+        }
+
+        .bg-container {
+            /* Arka plan görseli ve üzerindeki koyu filtre */
+            /* İstersen url('') içindeki linki başka bir görsel linkiyle değiştirebilirsin */
+            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop');
+            height: 100%;
+
+            /* Görseli merkeze al ve ekranı kapla */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            
+            /* İçeriği merkeze hizalama (Flexbox) */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        p {
+            font-size: 1.3rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            opacity: 0.8;
+        }
+        
+        /* Mobil cihazlar için font ayarı */
+        @media screen and (max-width: 600px) {
+             h1 { font-size: 2.2rem; }
+             p { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-container">
+        <h1>BIRAND TUNCER</h1>
+        <p>Building something new. Stay tuned.</p>
+    </div>
+</body>
+</html>
