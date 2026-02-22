@@ -5,40 +5,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Batu | Haftalık Program</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
     
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
     <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar@6.1.10/index.global.min.js'></script>
     
     <style>
+        /* 5. İSTEK: FullCalendar'ın standart renklerini Koyu Mavi tonlarıyla değiştiriyoruz */
+        :root {
+            --fc-page-bg-color: #112240; /* Takvim içi lacivert arka plan */
+            --fc-neutral-text-color: #E6F1FF; /* Yazılar açık mavi/beyaz */
+            --fc-border-color: #233554; /* Çizgi renkleri */
+            --fc-button-bg-color: #1E3A8A; /* Üst butonlar */
+            --fc-button-border-color: #1E3A8A;
+            --fc-button-hover-bg-color: #2563EB;
+            --fc-today-bg-color: transparent !important; /* 3. İSTEK: Bugün sarartmasını tamamen iptal eder */
+        }
+
         body {
             margin: 0;
             padding: 20px;
-            background-color: #f4f4f9;
-            font-family: 'Montserrat', sans-serif;
-            color: #333;
+            background-color: #0A192F; /* Sayfa arka planı daha da koyu lacivert */
+            font-family: 'Fredoka', sans-serif; /* Eğlenceli fontu tüm sayfaya uygular */
+            color: #E6F1FF;
         }
+
         h1 {
             text-align: center;
-            color: #2c3e50;
-            text-transform: uppercase;
+            color: #FFD700; /* Başlık için canlı bir sarı */
             letter-spacing: 2px;
             margin-bottom: 30px;
+            font-size: 2.5rem;
         }
+
         #calendar-container {
-            max-width: 1200px; /* Genişlik ayarı */
+            max-width: 1200px;
             margin: 0 auto;
-            background: white;
+            background: #112240; 
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.4);
         }
-        /* FullCalendar içindeki saat dilimi renk ayarları */
-        .fc-v-event {
-            background-color: #3498db; /* Etkinliklerin varsayılan rengi */
-            border: none;
-            border-radius: 4px;
-            padding: 2px 4px;
+
+        /* 2. İSTEK: Etkinlik isimlerini tam ortalama ve fontu büyütme */
+        .fc-event-main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            padding: 5px;
+        }
+
+        .fc-event-title {
+            font-size: 1.4rem !important; /* Font çok daha büyük */
+            text-align: center;
+            white-space: normal; /* Gerekirse alt satıra geçmesine izin verir */
+            font-weight: 600;
+        }
+
+        /* Haftanın günleri başlıklarını da renklendirelim */
+        .fc-col-header-cell-cushion {
+            font-size: 1.2rem;
+            color: #48CAE4; /* Gün isimleri açık tatlı bir mavi */
         }
     </style>
     
@@ -47,53 +75,50 @@
         var calendarEl = document.getElementById('calendar');
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: 'timeGridWeek', // Haftalık saatli görünüm
-          slotMinTime: '07:00:00', // Sadece 07:00'den başla
-          slotMaxTime: '22:00:00', // 22:00'de bitir
-          allDaySlot: false, // "Tüm gün" satırını gizle
-          firstDay: 1, // Hafta Pazartesi başlasın
-          locale: 'tr', // Dil Türkçe
-          height: 'auto', // Scroll çıkmasını engeller
+          initialView: 'timeGridWeek',
+          slotMinTime: '07:00:00',
+          slotMaxTime: '22:00:00',
+          allDaySlot: false,
+          firstDay: 1,
+          locale: 'tr',
+          height: 'auto',
+          
+          displayEventTime: false, // 1. İSTEK: Etkinliklerin içindeki saat yazılarını gizler
+
           headerToolbar: {
             left: 'prev,next today',
             center: 'title',
-            right: 'timeGridWeek,timeGridDay'
+            right: '' // 4. İSTEK: Sağ üstteki Hafta/Gün butonları buradan kaldırıldı
           },
           buttonText: {
-            today: 'Bugün',
-            week: 'Hafta',
-            day: 'Gün'
+            today: 'Bugün'
           },
-
-            // BİRDEN FAZLA VERİ KAYNAĞI BAĞLANTISI
+          
           eventSources: [
-            // 1. Kaynak: Google Takvim (Telefonundan gireceğin dinamik veriler)
             {
-              googleCalendarApiKey: 'AIzaSyDa96JKPXKrHmrK-VQXYm0JWT1Ox-M4-dM', // Kendi API anahtarını tekrar buraya yaz
-              googleCalendarId: 'c6e2ed1ea9b29e5331cae3788525b02345227e0429209a275757a252bde402db@group.calendar.google.com'    // Kendi Takvim ID'ni tekrar buraya yaz
+              googleCalendarApiKey: 'AIzaSyDa96JKPXKrHmrK-VQXYm0JWT1Ox-M4-dM', 
+              googleCalendarId: 'c6e2ed1ea9b29e5331cae3788525b02345227e0429209a275757a252bde402db@group.calendar.google.com '
             },
-            // 2. Kaynak: Koda gömdüğümüz sabit programlar (Okul ve BİLSEM)
             {
               events: [
                 {
                   title: 'OKUL',
-                  daysOfWeek: [ 1, 2, 3, 4, 5 ], // 1=Pazartesi, 5=Cuma arası
+                  daysOfWeek: [ 1, 2, 3, 4, 5 ],
                   startTime: '07:00:00',
                   endTime: '17:00:00',
-                  color: '#7f8c8d' // Göz yormayan şık bir gri renk
+                  color: '#00B4D8' // OKUL için daha canlı/eğlenceli bir açık mavi
                 },
                 {
                   title: 'BİLSEM',
-                  daysOfWeek: [ 6 ], // Sadece 6=Cumartesi
+                  daysOfWeek: [ 6 ],
                   startTime: '07:00:00',
                   endTime: '17:00:00',
-                  color: '#8e44ad' // BİLSEM için ayırt edici soft bir mor
+                  color: '#9D4EDD' // BİLSEM için tatlı bir mor
                 }
               ]
             }
           ]
-
-       });
+        });
 
         calendar.render();
       });
